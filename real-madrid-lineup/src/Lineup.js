@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Player from './Player';
+import AddPlayerForm from './AddPlayerForm';
 
 const Lineup = () => {
-  const players = [
+  const [players, setPlayers] = useState([
     { name: 'Thibaut Courtois', position: 'Goalkeeper' },
     { name: 'Dani Carvajal', position: 'Right Back' },
     { name: 'Éder Militão', position: 'Center Back' },
@@ -14,7 +15,13 @@ const Lineup = () => {
     { name: 'Federico Valverde', position: 'Right Winger' },
     { name: 'Karim Benzema', position: 'Center Forward' },
     { name: 'Vinícius Júnior', position: 'Left Winger' },
-  ];
+  ]);
+  const [showForm, setShowForm] = useState(false);
+
+  const addPlayer = (player) => {
+    setPlayers([...players, player]);
+    setShowForm(false);
+  };
 
   return (
     <div>
@@ -22,6 +29,10 @@ const Lineup = () => {
       {players.map((player) => (
         <Player key={player.name} name={player.name} position={player.position} />
       ))}
+      <button onClick={() => setShowForm(!showForm)}>
+        {showForm ? 'Cancel' : 'Add Player'}
+      </button>
+      {showForm && <AddPlayerForm addPlayer={addPlayer} />}
     </div>
   );
 };
